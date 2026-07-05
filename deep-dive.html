@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep dive: CoCo Manager</title>
+<meta name="description" content="The design behind coco manager: the atomic-item + index model, common pitfalls to avoid, and multi-project setup.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230e1013'/%3E%3Ctext%20x='7.5'%20y='23'%20font-family='ui-monospace,Menlo,monospace'%20font-size='21'%20font-weight='700'%20fill='%235aa2f0'%3Ec%3C/text%3E%3Ccircle%20cx='23'%20cy='20.5'%20r='2.3'%20fill='%235aa2f0'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://shumanpng.github.io/coco-manager/deep-dive.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CoCo Manager">
+<meta property="og:title" content="Deep dive: CoCo Manager">
+<meta property="og:description" content="The design behind coco manager: the atomic-item + index model, common pitfalls to avoid, and multi-project setup.">
+<meta property="og:url" content="https://shumanpng.github.io/coco-manager/deep-dive.html">
+<meta property="og:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Deep dive: CoCo Manager">
+<meta name="twitter:description" content="The design behind coco manager: the atomic-item + index model, common pitfalls to avoid, and multi-project setup.">
+<meta name="twitter:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="nav"><div class="inner">
+  <a class="brand" href="index.html">coco&nbsp;manager<span class="dot">.</span></a>
+  <div class="links">
+    <a class="link" href="index.html">Home</a>
+    <a class="link" href="getting-started.html">Getting started</a>
+    <a class="link" href="how-it-works.html">How it works</a>
+    <a class="link" href="tutorial.html">Tutorial</a>
+    <a class="link active" href="deep-dive.html">Deep dive</a>
+  </div>
+  <a class="gh" href="https://github.com/shumanpng/coco-manager">GitHub ↗</a>
+</div></div>
+
+<header id="top" class="wrap pagehead">
+  <div class="kicker">For the curious</div>
+  <h1>Deep dive</h1>
+  <p class="lead">Not everyone needs this to use the system: the skills maintain the shape for you. It's here for when you want to understand the design, avoid the sharp edges, or run more than one project.</p>
+</header>
+
+<div class="tut-layout">
+  <aside class="tut-rail">
+    <nav class="secnav" aria-label="Sections">
+      <a href="#concepts">Concepts</a>
+      <a href="#pitfalls">Pitfalls</a>
+      <a href="#appendix">Multi-project</a>
+    </nav>
+  </aside>
+
+  <div class="tut-main">
+    <!-- CONCEPTS -->
+    <section id="concepts">
+      <div class="kicker">Concepts</div>
+      <h2>A closer look at the notes</h2>
+      <p><a href="how-it-works.html">How it works</a> introduced the two note types; two details matter once you're living in them.</p>
+
+      <h3>Which fact goes where</h3>
+      <p>The same fact rarely belongs in both stores: a decision is <b>state</b>; the task that acted on it is <b>planning</b>. Keeping them separate is what lets <code class="cmd">/status</code> answer "what's left to do?" without wading through everything you've learned.</p>
+
+      <h3>You edit items, not the index</h3>
+      <p>Every item is its own small markdown file, and a script regenerates <code>INDEX.md</code> from them; you never edit the index by hand. That regenerated index is what the LLM scans token-efficiently: it reads the index, opens only the item that matters, and reaches for a worklog only when it needs the full story.</p>
+
+      <figure>
+        <div class="svgbox">
+        <svg viewBox="0 0 900 170" role="img" aria-label="Index-first: scan the index, open one item, follow to a worklog only if needed">
+          <defs><marker id="di" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+            <path d="M0,0 L9,4.5 L0,9 z" fill="var(--accent)"/></marker></defs>
+
+          <text x="135" y="18" text-anchor="middle" class="t-mut" style="font-size:10px;letter-spacing:.06em">THE INDEX</text>
+          <text x="450" y="18" text-anchor="middle" class="t-mut" style="font-size:10px;letter-spacing:.06em">ONE ITEM</text>
+          <text x="765" y="18" text-anchor="middle" class="t-mut" style="font-size:10px;letter-spacing:.06em">IF NEEDED</text>
+
+          <rect x="30" y="30" width="210" height="120" rx="11" class="nb" fill="var(--panel2)"/>
+          <text x="48" y="58" class="t-cmd">state/INDEX.md</text>
+          <text x="48" y="86" class="t-mut" style="font-size:11px">D001 · decision …</text>
+          <text x="48" y="108" class="t-mut" style="font-size:11px">F001 · finding …</text>
+          <text x="48" y="130" class="t-mut" style="font-size:11px">Q001 · question …</text>
+
+          <rect x="345" y="30" width="210" height="120" rx="11" class="nb" fill="var(--panel)"/>
+          <text x="363" y="58" class="t-cmd">state/items/D001.md</text>
+          <text x="363" y="86" class="t-mut" style="font-size:11px">the full decision</text>
+          <text x="363" y="108" class="t-mut" style="font-size:11px">+ rationale, links</text>
+          <text x="363" y="130" class="t-mut" style="font-size:11px">+ evidence pointers</text>
+
+          <rect x="660" y="30" width="210" height="120" rx="11" fill="var(--panel2)" stroke="var(--line)" stroke-dasharray="4 3"/>
+          <text x="678" y="82" class="t-cmd">a worklog</text>
+          <text x="678" y="104" class="t-mut" style="font-size:11px">the full story,</text>
+          <text x="678" y="122" class="t-mut" style="font-size:11px">if you need it</text>
+
+          <path class="edge-r" marker-end="url(#di)" d="M240,90 L343,90"/>
+          <path class="edge-r" marker-end="url(#di)" d="M555,90 L658,90"/>
+          <text x="292" y="82" text-anchor="middle" class="t-mut" style="font-size:10px">scan · open one</text>
+          <text x="607" y="82" text-anchor="middle" class="t-mut" style="font-size:10px">drill in</text>
+        </svg>
+        </div>
+        <figcaption>The index-first pattern: scan the small index, open only the item that matters, and reach for a worklog only when you want the narrative.</figcaption>
+      </figure>
+    </section>
+
+    <!-- PITFALLS -->
+    <section id="pitfalls">
+      <div class="kicker">Common pitfalls</div>
+      <h2>Things to watch for</h2>
+      <div class="grid g3">
+        <div class="card"><h3 style="margin-top:0">Linked-file misses</h3><p><code>/end-session</code> can miss a state item buried in a file it didn't open. Review what it suggests; add the ones it didn't catch.</p></div>
+        <div class="card"><h3 style="margin-top:0">Long worklogs</h3><p>Worklog length drives how long <code>/end-session</code> takes to process. Keep entries terse; that also makes future <code>/catchup</code> sharper.</p></div>
+        <div class="card"><h3 style="margin-top:0">Mistranscriptions</h3><p>Meeting transcripts flip decision polarity and mangle names. Always read <code>/process-meeting</code> proposals before confirming.</p></div>
+      </div>
+    </section>
+
+    <!-- MULTI-PROJECT -->
+    <section id="appendix">
+      <div class="kicker">Multi-project</div>
+      <h2>Multi-project setup</h2>
+      <p>One install can serve more than one project. <code>meta.md</code> supports a multi-project block, and every project-scoped skill takes an optional project name as its first argument (e.g. <code class="cmd">/status my-other-project</code>) to pick which one it acts on. Re-run <code class="cmd">/setup</code> to add a project block. For most people, though, a per-project clone is simpler: independent upgrades, no ambiguity about which project a bare command means.</p>
+    </section>
+  </div>
+</div>
+
+<nav class="pager wrap">
+  <a class="pg prev" href="tutorial.html"><span>← Prev</span><b>Tutorial</b></a>
+  <a class="pg next" href="index.html"><span>↑</span><b>Back to home</b></a>
+</nav>
+
+<footer class="wrap foot">
+  <p><b>That's everything.</b> <a href="getting-started.html">Get started →</a> &nbsp;·&nbsp; <a href="https://github.com/shumanpng/coco-manager">Repository &amp; README ↗</a> &nbsp;·&nbsp; Issues and discussions live on GitHub.</p>
+  <p>MIT licensed · © Shuman Peng 2026 · Built to be boring on purpose.</p>
+</footer>
+
+<script>
+(function(){
+  var links = [].slice.call(document.querySelectorAll('.secnav a'));
+  var secs = links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
+  function on(){
+    var y = window.scrollY + 140, idx = 0;
+    for (var i=0;i<secs.length;i++){ if (secs[i] && secs[i].offsetTop <= y) idx = i; }
+    for (var j=0;j<links.length;j++){ links[j].classList.toggle('active', j===idx); }
+  }
+  window.addEventListener('scroll', on, {passive:true});
+  window.addEventListener('resize', on);
+  on();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorial: CoCo Manager</title>
+<meta name="description" content="Learn coco manager in the order you'll need it: the day-one worklog loop, meetings, session-start briefings, then the weekly cycle.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230e1013'/%3E%3Ctext%20x='7.5'%20y='23'%20font-family='ui-monospace,Menlo,monospace'%20font-size='21'%20font-weight='700'%20fill='%235aa2f0'%3Ec%3C/text%3E%3Ccircle%20cx='23'%20cy='20.5'%20r='2.3'%20fill='%235aa2f0'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://shumanpng.github.io/coco-manager/tutorial.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CoCo Manager">
+<meta property="og:title" content="Tutorial: CoCo Manager">
+<meta property="og:description" content="Learn coco manager in the order you'll need it: the day-one worklog loop, meetings, session-start briefings, then the weekly cycle.">
+<meta property="og:url" content="https://shumanpng.github.io/coco-manager/tutorial.html">
+<meta property="og:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tutorial: CoCo Manager">
+<meta name="twitter:description" content="Learn coco manager in the order you'll need it: the day-one worklog loop, meetings, session-start briefings, then the weekly cycle.">
+<meta name="twitter:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="nav"><div class="inner">
+  <a class="brand" href="index.html">coco&nbsp;manager<span class="dot">.</span></a>
+  <div class="links">
+    <a class="link" href="index.html">Home</a>
+    <a class="link" href="getting-started.html">Getting started</a>
+    <a class="link" href="how-it-works.html">How it works</a>
+    <a class="link active" href="tutorial.html">Tutorial</a>
+    <a class="link" href="deep-dive.html">Deep dive</a>
+  </div>
+  <a class="gh" href="https://github.com/shumanpng/coco-manager">GitHub ↗</a>
+</div></div>
+
+<header id="top" class="wrap pagehead">
+  <div class="kicker">Learn it in the order you'll need it</div>
+  <h1>Tutorial</h1>
+  <p class="lead">The skills layer on over your first weeks: start with the day-one loop, add meetings, then the session-start briefings and the weekly cycle. You don't need all of it at once.</p>
+</header>
+
+<div class="tut-layout">
+  <aside class="tut-rail">
+    <nav class="secnav" aria-label="Sections">
+      <a href="#loop">Day 1</a>
+      <a href="#meetings">Day 2–3</a>
+      <a href="#week1">Week 1</a>
+      <a href="#weekly">Week 2+</a>
+    </nav>
+  </aside>
+
+  <div class="tut-main">
+    <!-- DAILY LOOP -->
+    <section id="loop">
+      <div class="kicker">Day 1</div>
+      <h2>Your minimum viable loop</h2>
+      <p>The whole system, on day one, is three commands: <code class="cmd">/new-worklog</code> at the start of a session, <em>work in the worklog</em> as you go, <code class="cmd">/end-session</code> at the end. Don't reach for anything else yet: meetings, planning, weekly cycles all layer on later. Get this rhythm first.</p>
+
+
+      <h3>Open a session</h3>
+      <pre><code><span class="tok-cmd">/new-worklog</span> "fix flaky integration test in the auth flow"</code></pre>
+      <p>Creates a dated file under <code>worklogs/</code> (e.g. <code>worklogs/2026-05-22_fix_flaky_auth_test.md</code>) pre-filled with <code>Goal/Outcome</code>, <code>Tasks</code>, an empty <code>Work log</code>, and a <code>Summary</code>. If a recent worklog has open tasks or a "next session" pointer, <code>/new-worklog</code> offers to carry that forward. Most days, say yes. Then read the Goal back and tighten it: it should answer "what did you do today?" in five seconds.</p>
+
+      <h3>Work in the worklog</h3>
+      <p>Keep the worklog <em>open as you go</em> and lean on Claude to maintain it. The rhythm is conversational: something happens, Claude proposes what to capture and where, you confirm or edit, Claude writes it. Done well, you barely think about the worklog as a separate artifact: it's a running transcript of the session's reasoning that Claude keeps for you.</p>
+      <div class="tip"><b>Highest-leverage setup:</b> configure your <code>CLAUDE.md</code> to <em>prompt</em> this propose-confirm pass after each meaningful action. (Recommended snippets ship separately.)</div>
+      <p>When you want something at a <em>specific</em> location (a <code>Decision:</code> bullet under a specific task, a numeric result in a specific subsection), <b>reference a line number</b>: "add a <code>Decision:</code> bullet at line 47 under the test-strategy task." Claude follows spatial pointers well and guesses badly from "add a note somewhere reasonable." The only universal: don't end a session with an empty <code>Work log</code>. Even three terse bullets give future-you traction.</p>
+
+      <h3>Close the session: two ways</h3>
+      <p>Both keep you in control; they differ in how much you do by hand. Most days, reach for the agent-assisted close; drop to the fully-manual one when you want to sit in every edit.</p>
+
+      <p><b>1 · Agent-assisted: close with confidence (recommended).</b> The agent does the drafting and a second, independent agent checks it before anything is written; you approve once. Not automated: you keep the final say, just not edit-by-edit. The win isn't speed; it's that you don't have to sit through it: while the review agent works, you can step away, then take one final look and verify at the end before all those edits land.</p>
+      <pre><code><span class="tok-cmd">/audit</span> end-session</code></pre>
+      <p>Run <code class="cmd">/audit end-session</code> in place of <code class="cmd">/end-session</code>. It's the close, double-checked before anything is written: one subagent drafts the full set of updates (writing nothing to your notes), a second, independent subagent reviews that draft against your actual notes, and you get a single approval at the end: a verdict, a summary of what would change, and any calls that need your decision. Approve, answer the open calls, or reject; only then are the writes applied.</p>
+      <div class="tip"><b>Defaults, tunable:</b> a lighter model drafts (<code>sonnet</code>) and a stronger one reviews (<code>opus</code>); override with <code>--proposer-model</code> / <code>--reviewer-model</code>. <code class="cmd">/audit</code> wraps any write-heavy skill (its first argument is the skill you're checking, later <code class="cmd">/process-meeting</code> or <code class="cmd">/build-week</code>), and it adds little on read-only briefings like <code class="cmd">/catchup</code>, so it'll say so.</div>
+
+      <p><b>2 · Fully in the loop.</b> When you'd rather be involved in every change (a 15–20 minute wind-down where you review and confirm each edit yourself), close with plain <code class="cmd">/end-session</code>.</p>
+      <pre><code><span class="tok-cmd">/end-session</span></code></pre>
+      <p><code class="cmd">/end-session</code> walks the worklog you wrote and helps you close it out. It drafts two things for your review: a <b>Distilled information corner</b>, the durable takeaways (what changed, the decisions you made and why, key findings), and the <b>Summary</b>, a handoff for next time (a "start here" pointer with files to open and commands to run, in-progress tasks, blockers, and next actions). Along the way it asks a couple of quick questions (what's blocked? the top next actions?), ticks off the tasks you finished, and proposes updates it noticed for your <code>planning/</code> backlog and <code>state/</code> items: a finished task flips to done; a decision or finding worth keeping becomes a state item. Every step pauses for you to confirm or edit, and it never rewrites your <code>Work log</code> or <code>Goal</code>.</p>
+      <div class="tip"><b>The click moment:</b> tomorrow, or three days from now, type <code class="cmd">/catchup</code> and watch what you wrote come back as a tight briefing. That's usually when the system clicks.</div>
+
+      <h3>Switch into co-working mode: <span class="cmd">/co-work</span></h3>
+      <p><b>This is the human–agent co-working workflow.</b> Reach for <code class="cmd">/co-work</code> in two situations. The first is a <b>bigger piece of work</b>: a multi-step build, an investigation, anything you'd want decomposed and double-checked. It adopts a collaboration mode for the rest of the session: Claude works as your collaborator (breaking the task into pieces, dispatching subagents to build, review, and verify, and flagging its own soft spots) while you keep deciding scope, direction, and when it's good enough.</p>
+      <p>The second is <b>working in parallel</b>. Run two or three Claude Code sessions on the same project at once and they'll otherwise all write the same day's worklog, clobbering each other's edits. <code class="cmd">/co-work</code> gives each session its own <em>sublog</em> (a separate file that links back to the day's main worklog), so parallel sessions never collide on one file, while the day's work still threads together in one place.</p>
+    </section>
+
+    <!-- MEETINGS -->
+    <section id="meetings">
+      <div class="kicker">Day 2–3</div>
+      <h2>Adding meetings</h2>
+      <p>Once the worklog loop feels natural, meetings are the next thing worth structuring. Without a place for them, decisions made in a meeting either get re-typed into the worklog (and re-discovered later as a source-of-truth problem), or they evaporate. Meetings get their own short-lived file under <code>meeting/</code>, with a skill to pull the meeting's output into the rest of your trail.</p>
+      <div class="grid g2">
+        <div class="card">
+          <span class="cmd">/new-meeting "weekly sync"</span>
+          <p>Creates <code>meeting/2026-05-22_weekly-sync.md</code> from a template: attendees, agenda, notes, and a <code>Decisions / Action items / Open questions</code> block. Take live notes into it, or paste a transcript afterward.</p>
+        </div>
+        <div class="card">
+          <span class="cmd">/process-meeting</span>
+          <p>Reads the note and proposes structured updates: decisions → state items, action items → planning items, open questions → state items (typed as questions). Links the meeting back to the same-day worklog. Pauses before writing: you confirm each.</p>
+        </div>
+      </div>
+      <h3>Why this layer exists</h3>
+      <p>Meetings produce <em>outputs</em> (decisions, action items, open questions) that are first-class artifacts of the project, not session-scoped notes. Routing them through <code>/process-meeting</code> means a decision made on Tuesday is queryable as a <code>decision</code> state item on Friday, alongside every other decision, without you remembering which day's worklog mentioned it.</p>
+      <div class="note"><b>One caution.</b> If you use auto-transcription, review what <code>/process-meeting</code> extracts before confirming. Transcribers slip on technical terms, get names wrong, and occasionally <em>invert</em> a decision ("we agreed to ship X" vs. "we agreed <em>not</em> to ship X" can come out the same). The proposal step is your safety net. Don't skim it.</div>
+    </section>
+
+    <!-- WEEK 1 -->
+    <section id="week1">
+      <div class="kicker">Week 1</div>
+      <h2>Session-start briefings: <span class="cmd">/catchup</span> and <span class="cmd">/status</span></h2>
+      <p>These two are read-only and self-explanatory once you've tried them: they just read the trail you've been building. The distinction is <em>which question you're asking</em>.</p>
+      <div class="grid g2">
+        <div class="card">
+          <h3 style="margin-top:0;color:var(--accent)">/catchup: "where was I?"</h3>
+          <p>Start-of-session briefing. Summarizes your recent worklogs, surfaces incomplete tasks, and points at where to start. Reach for it when you're returning to a project after a gap and need your head back in the game.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;color:var(--accent)">/status: "what should I do next?"</h3>
+          <p>Prioritization dashboard built from the planning and state indices: what's active, what's up next, what's blocked, plus open questions worth attention. Reach for it when you know where you are but need to decide what to pick up.</p>
+        </div>
+      </div>
+      <p class="muted">Rule of thumb: <code class="cmd">/catchup</code> re-loads your memory; <code class="cmd">/status</code> chooses your next move. Many sessions start with one, then the other.</p>
+    </section>
+
+    <!-- WEEKLY CYCLE -->
+    <section id="weekly">
+      <div class="kicker">Week 2+</div>
+      <h2>The weekly cycle: <span class="cmd">/build-week</span> and <span class="cmd">/end-week</span></h2>
+      <p class="muted">Honest framing: this is a layer-on-later habit, not a day-one one. Adopt it once the daily loop is automatic and you have enough planning items that a weekly focus actually helps.</p>
+      <div class="grid g2">
+        <div class="card">
+          <span class="cmd">/build-week</span>
+          <p>Reads the planning and state indices (not every item, just the indices, for speed), folds in recent meeting signals, confirms priorities with you, then writes a focused weekly plan file.</p>
+        </div>
+        <div class="card">
+          <span class="cmd">/end-week</span>
+          <p>Reviews the week against that plan, fills in a review-notes section, and catches planning items whose status drifted during the week so your backlog stays honest.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<nav class="pager wrap">
+  <a class="pg prev" href="how-it-works.html"><span>← Prev</span><b>How it works</b></a>
+  <a class="pg next" href="deep-dive.html"><span>Next →</span><b>Deep dive</b></a>
+</nav>
+
+<footer class="wrap foot">
+  <p><b>Want more?</b> <a href="deep-dive.html">Deep dive →</a> &nbsp;·&nbsp; <a href="https://github.com/shumanpng/coco-manager">Repository &amp; README ↗</a> &nbsp;·&nbsp; Issues and discussions live on GitHub.</p>
+  <p>MIT licensed · © Shuman Peng 2026 · Built to be boring on purpose.</p>
+</footer>
+
+<script>
+(function(){
+  var links = [].slice.call(document.querySelectorAll('.secnav a'));
+  var secs = links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
+  function on(){
+    var y = window.scrollY + 140, idx = 0;
+    for (var i=0;i<secs.length;i++){ if (secs[i] && secs[i].offsetTop <= y) idx = i; }
+    for (var j=0;j<links.length;j++){ links[j].classList.toggle('active', j===idx); }
+  }
+  window.addEventListener('scroll', on, {passive:true});
+  window.addEventListener('resize', on);
+  on();
+})();
+</script>
+
+</body>
+</html>

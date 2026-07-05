@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started: CoCo Manager</title>
+<meta name="description" content="Install coco manager in about five minutes: clone the repo, run one script in your project, open Claude Code, and run /setup.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230e1013'/%3E%3Ctext%20x='7.5'%20y='23'%20font-family='ui-monospace,Menlo,monospace'%20font-size='21'%20font-weight='700'%20fill='%235aa2f0'%3Ec%3C/text%3E%3Ccircle%20cx='23'%20cy='20.5'%20r='2.3'%20fill='%235aa2f0'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://shumanpng.github.io/coco-manager/getting-started.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CoCo Manager">
+<meta property="og:title" content="Getting started: CoCo Manager">
+<meta property="og:description" content="Install coco manager in about five minutes: clone the repo, run one script in your project, open Claude Code, and run /setup.">
+<meta property="og:url" content="https://shumanpng.github.io/coco-manager/getting-started.html">
+<meta property="og:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Getting started: CoCo Manager">
+<meta name="twitter:description" content="Install coco manager in about five minutes: clone the repo, run one script in your project, open Claude Code, and run /setup.">
+<meta name="twitter:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="nav"><div class="inner">
+  <a class="brand" href="index.html">coco&nbsp;manager<span class="dot">.</span></a>
+  <div class="links">
+    <a class="link" href="index.html">Home</a>
+    <a class="link active" href="getting-started.html">Getting started</a>
+    <a class="link" href="how-it-works.html">How it works</a>
+    <a class="link" href="tutorial.html">Tutorial</a>
+    <a class="link" href="deep-dive.html">Deep dive</a>
+  </div>
+  <a class="gh" href="https://github.com/shumanpng/coco-manager">GitHub ↗</a>
+</div></div>
+
+<header id="top" class="wrap pagehead">
+  <div class="kicker">Day 0</div>
+  <h1>Getting started</h1>
+  <p class="lead">Five steps, about five minutes. The install is deliberately boring: clone the repo, run one script in your project, open Claude Code, configure paths.</p>
+</header>
+
+<section id="install" class="wrap">
+  <ol class="steps">
+    <li><b>Clone the repo once per project</b> you want to use this in.
+      <pre><code><span class="tok-cmd">git clone</span> https://github.com/shumanpng/coco-manager.git <span class="tok-p">~/code/your-project-context-manager</span></code></pre>
+      <p class="muted">Pick a per-project location, e.g., a sibling directory of your project. <code>/setup</code> (step 5) writes paths specific to this project into the install's <code>meta.md</code>, so separate projects each get their own clone and can upgrade on their own schedule.</p>
+    </li>
+    <li><b><code>cd</code> into the project</b> you want to use this system in.
+      <pre><code><span class="tok-cmd">cd</span> <span class="tok-p">~/code/your-project</span></code></pre>
+      <p class="muted">This is <em>your</em> project, the one you're already working on. The context manager lives alongside whatever's already there; it doesn't take over the repo.</p>
+    </li>
+    <li><b>Run <code>init.sh</code></b> from your project.
+      <pre><code><span class="tok-cmd">bash</span> <span class="tok-p">~/code/your-project-context-manager/init.sh</span></code></pre>
+      <p class="muted">It prompts once for where to put your notes (default <code>your-project/notes/</code>), then sets up the layout: <code>.claude/skills/</code>, your notes directory, and an offline copy of this guide. It's idempotent: re-run it any time upstream updates, and it overwrites the repo-owned bits without touching your own notes.</p>
+    </li>
+    <li><b>Open Claude Code</b> in your project.
+      <pre><code><span class="tok-cmd">cd</span> <span class="tok-p">~/code/your-project</span> &amp;&amp; <span class="tok-cmd">claude</span></code></pre>
+      <p class="muted">The skills are project-local (under <code>.claude/skills/</code>), so Claude Code picks them up automatically. They become available as <code>/</code>-commands.</p>
+    </li>
+    <li><b>Run <code class="cmd">/setup</code> once.</b>
+      <p class="muted">Inside Claude Code, type <code class="cmd">/setup</code> and follow the prompts. It writes your notes-directory paths into <code>meta.md</code>. After this, every other skill knows where to read and write. You won't need it again unless you add a second project to the same install.</p>
+    </li>
+  </ol>
+  <p>That's it. Type <code class="cmd">/about</code> to see every shipped skill, in roughly the order you'll want to learn them. From here, it helps to understand <a href="how-it-works.html">how it all fits together</a>, or jump straight into the <a href="tutorial.html">tutorial</a>.</p>
+
+  <nav class="pager">
+    <a class="pg prev" href="index.html"><span>← Prev</span><b>Why this exists</b></a>
+    <a class="pg next" href="how-it-works.html"><span>Next →</span><b>How it works</b></a>
+  </nav>
+</section>
+
+<footer class="wrap foot">
+  <p><b>Ready?</b> <a href="how-it-works.html">How it works →</a> &nbsp;·&nbsp; <a href="https://github.com/shumanpng/coco-manager">Repository &amp; README ↗</a> &nbsp;·&nbsp; Issues and discussions live on GitHub.</p>
+  <p>MIT licensed · © Shuman Peng 2026 · Built to be boring on purpose.</p>
+</footer>
+
+</body>
+</html>

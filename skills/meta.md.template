@@ -1,0 +1,16 @@
+# Skills Configuration
+#
+# After running init.sh, /setup will populate this file with absolute paths
+# to your project's worklogs, planning, state, meetings, weekly-planning,
+# and instructions directories.
+#
+# Each project gets its own block under PROJECTS:.
+
+PROJECTS:
+  my-project:
+    worklogs: /absolute/path/to/your/notes/worklogs
+    planning: /absolute/path/to/your/notes/planning
+    state: /absolute/path/to/your/notes/state
+    meetings: /absolute/path/to/your/notes/meeting
+    weekly-planning: /absolute/path/to/your/notes/planning/weekly
+    instructions: /absolute/path/to/your/notes/.coco-manager/instructions

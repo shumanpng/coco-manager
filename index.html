@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CoCo Manager: shared memory for human–agent co-working</title>
+<meta name="description" content="Shared memory for human–agent co-working: a scannable notes layout plus Claude Code skills that keep it current, so you never re-onboard yourself or lose sight of what the agent did.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230e1013'/%3E%3Ctext%20x='7.5'%20y='23'%20font-family='ui-monospace,Menlo,monospace'%20font-size='21'%20font-weight='700'%20fill='%235aa2f0'%3Ec%3C/text%3E%3Ccircle%20cx='23'%20cy='20.5'%20r='2.3'%20fill='%235aa2f0'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://shumanpng.github.io/coco-manager/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CoCo Manager">
+<meta property="og:title" content="CoCo Manager: shared memory for human–agent co-working">
+<meta property="og:description" content="Shared memory for human–agent co-working: a scannable notes layout plus Claude Code skills that keep it current, so you never re-onboard yourself or lose sight of what the agent did.">
+<meta property="og:url" content="https://shumanpng.github.io/coco-manager/">
+<meta property="og:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CoCo Manager: shared memory for human–agent co-working">
+<meta name="twitter:description" content="Shared memory for human–agent co-working: a scannable notes layout plus Claude Code skills that keep it current, so you never re-onboard yourself or lose sight of what the agent did.">
+<meta name="twitter:image" content="https://shumanpng.github.io/coco-manager/og-image.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="nav"><div class="inner">
+  <a class="brand" href="index.html">coco&nbsp;manager<span class="dot">.</span></a>
+  <div class="links">
+    <a class="link active" href="index.html">Home</a>
+    <a class="link" href="getting-started.html">Getting started</a>
+    <a class="link" href="how-it-works.html">How it works</a>
+    <a class="link" href="tutorial.html">Tutorial</a>
+    <a class="link" href="deep-dive.html">Deep dive</a>
+  </div>
+  <a class="gh" href="https://github.com/shumanpng/coco-manager">GitHub ↗</a>
+</div></div>
+
+<!-- HERO -->
+<header id="top" class="wrap hero">
+  <div class="kicker">Shared memory for human–agent co-working</div>
+  <h1>Stop re-onboarding yourself and your agents every time you switch projects.</h1>
+  <p class="lead"><b>Reliable memory, backed by workflow.</b> A scannable layout for your project's notes (per-session worklogs, atomic decisions and tasks, a generated index over all of it) plus a small set of Claude Code skills that keep it current as you work <em>with</em> your agents, often several at once, not just delegate to them. You stay the driver; the agents do the legwork and leave a trail of evidence as they go, capturing each decision, dead end, and result in one shared record they can all work from. Pick up exactly where you left off, and keep every step reviewable months later.</p>
+  <div class="cta">
+    <a class="btn primary" href="getting-started.html">Get started →</a>
+    <a class="btn ghost" href="how-it-works.html">See how it works</a>
+  </div>
+  <div class="pills">
+    <span class="pill">Human stays the driver</span>
+    <span class="pill">The agent leaves a trail of evidence</span>
+    <span class="pill">12 slash-command skills</span>
+    <span class="pill">Works in any project</span>
+    <span class="pill">MIT licensed</span>
+  </div>
+</header>
+
+<!-- WHY -->
+<section id="why" class="wrap">
+  <div class="kicker">The pain</div>
+  <h2>Why this exists</h2>
+  <p class="muted" style="margin-bottom:4px">Three situations this is built for. The first two are about losing your own thread across a break; the third, the one that grows every time you hand more of the work to an agent, is about losing sight of what the agent did.</p>
+
+  <div class="scenario s1">
+    <div class="eyebrow">Scenario 1 · The context switch</div>
+    <p>You finished a session Tuesday afternoon. It's now Friday. You open the project, stare at the screen, and realize you have to spend the next hour reconstructing where you were before you can do useful work: which open question were you chasing, what did you decide and discard, where exactly in the code you stopped, why the test you'd been writing was even the right test to write. By the time your head is back in the project, you have maybe an hour of real work left in the session.</p>
+    <p>If you only ever work on one thing for weeks at a time, this isn't your problem. But most people don't. With two or three projects in flight (meetings, teaching, side experiments, etc.), every switch costs roughly an hour of re-onboarding. In a typical 1.5–2 hour work block, that's most of the time: you spend your day getting back to where you were instead of moving forward.</p>
+    <p>And the agent doesn't rescue you here by default. It's not that it forgets (a session can carry context forward) but that context is a finite, lossy window: a whole multi-month project never fits, and cramming everything in makes the agent slower and less sharp, not more. The fix isn't one endless session; it's a durable trail kept outside the model that either of you can reload from, just the slice you need.</p>
+  </div>
+
+  <div class="scenario s2">
+    <div class="eyebrow">Scenario 2 · The design you can no longer explain</div>
+    <p>There's a related pain you only notice later. The pipeline you've been running daily for three months feels obvious to you: every design choice has been internalized to the point of <em>of course it works this way, how else would it</em>. Then a deadline arrives and you have to write it up.</p>
+    <p>You sit down to explain the design to a stranger and most of it is gone: you remember what the thing <em>does</em>, but not the choice you made to get there, not the why, not the how, not the alternatives you tried first, not the specific failure mode that pushed you to the current setup. Reconstructing it costs a day or two of grinding through git history and half-remembered messages, under the wrong intuition that whatever you're doing now must have been the obvious choice from the start. It rarely was: the design is usually more deliberate than memory credits it for, and much of that reasoning happened in dialogue with an agent that no longer has it to hand.</p>
+  </div>
+
+  <div class="scenario s3">
+    <div class="eyebrow">Scenario 3 · The agent did everything, and you're no longer in the loop</div>
+    <p>The opposite of forgetting: you hand the work off and stop watching. It's tempting: let the agent run and take the result. But left to run ahead unattended, it makes a dozen design decisions along the way, and now you can't easily say what it chose, why, or whether it's right; reviewing it means reverse-engineering an agent's reasoning from the artifact alone. Do this enough and you become a passenger in your own project: things get built, but you can no longer vouch for them, and the calls that should have been yours were made without you.</p>
+  </div>
+
+  <p>This system exists to address all three pain points: a small set of disciplined notes, written into your project in a layout an LLM can scan token-efficiently.</p>
+  <p>When you sit back down after a switch, one command (<code class="cmd">/catchup</code>) reads the trail and tells you where you were, what's open, and what to do next. Writing things up three months later, asking Claude to walk your <code>state/INDEX.md</code> surfaces the design decisions and findings you made along the way, often in more detail than you'd remember unaided. And when the agent does the legwork with <code class="cmd">/co-work</code>, the same trail keeps you in the driver's seat: every decision it makes is recorded as it goes, so you can review, question, or override any of them without redoing the work yourself.</p>
+  <div class="tip"><b>The payoff people report:</b> what would have been a day or two of suffering becomes minutes of light editing, and the write-up ends up <em>more</em> faithful to the actual reasoning than working from memory would have been.</div>
+
+  <div class="cta" style="margin-top:32px">
+    <a class="btn primary" href="getting-started.html">Learn how it works &amp; get started →</a>
+  </div>
+</section>
+
+<footer class="wrap foot">
+  <p><b>Ready?</b> <a href="getting-started.html">Get started →</a> &nbsp;·&nbsp; <a href="https://github.com/shumanpng/coco-manager">Repository &amp; README ↗</a> &nbsp;·&nbsp; Issues and discussions live on GitHub.</p>
+  <p>MIT licensed · © Shuman Peng 2026 · Built to be boring on purpose.</p>
+</footer>
+
+</body>
+</html>
